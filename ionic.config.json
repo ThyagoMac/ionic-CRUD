@@ -1,0 +1,7 @@
+{
+  "name": "ionic-CRUD",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
