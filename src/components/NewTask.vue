@@ -6,7 +6,7 @@
             </h2>
         </div>
 
-        <Form class="flex flex-col justify-center h-full">
+        <Form @submit="addTask()" class="flex flex-col justify-center h-full">
             <div>
                 <ion-item>
                     <Field v-slot="{ field }" name="taskField" 
@@ -18,7 +18,7 @@
                 </ion-item>
                 <ion-item lines="none">
                     <ErrorMessage v-slot="{ message }" name="taskField">
-                        <ion-text color="danger" v-if="message"></ion-text>
+                        <ion-text color="danger" v-if="message">{{ message }}</ion-text>
                     </ErrorMessage>
                 </ion-item>
             </div>
@@ -35,7 +35,7 @@
                 </ion-item>
                 <ion-item lines="none">
                     <ErrorMessage v-slot="{ message }" name="duedateField">
-                        <ion-text color="danger" v-if="message"></ion-text>
+                        <ion-text color="danger" v-if="message">{{ message }}</ion-text>
                     </ErrorMessage>
                 </ion-item>
 
@@ -47,7 +47,7 @@
                 <ion-item>
                     <ion-icon :icon="grid" color="primary" slot="start"></ion-icon>
                     <ion-label>Category</ion-label>
-                    <Field v-model="category" v-slot="{ field }" name="categoryField">
+                    <Field v-model="category" :rules="isRequired" v-slot="{ field }" name="categoryField">
                         <ion-select v-bind="field" placeholder="Select One">
                             <ion-select-option value="Work">Work</ion-select-option>
                             <ion-select-option value="Music">Music</ion-select-option>
@@ -61,9 +61,13 @@
                 </ion-item>
                 <ion-item lines="none">
                     <ErrorMessage v-slot="{ message }" name="categoryField">
-                        <ion-text color="danger" v-if="message"></ion-text>
+                        <ion-text color="danger" v-if="message">{{ message }}</ion-text>
                     </ErrorMessage>
                 </ion-item>
+            </div>
+
+            <div class="mt-8">
+                <ion-button expand="block" type="submit">Create</ion-button>
             </div>
         </Form>
 
@@ -76,14 +80,17 @@
 
 <script>
 import { defineComponent, ref } from 'vue';
-import { IonPage, IonFab, IonIcon, IonItem, IonInput, IonText, IonDatetime, IonTextarea, IonLabel, IonSelect, } from '@ionic/vue'
+import { IonPage, IonFab, IonIcon, IonItem, IonInput, IonText, IonDatetime, IonTextarea, IonLabel, IonSelect, IonButton, IonSelectOption } from '@ionic/vue'
 import { close, notifications, document, grid } from 'ionicons/icons'
 import { Form, Field, ErrorMessage } from 'vee-validate'
+import firebase from '@/firebase.ts';
+
+const db = firebase.firestore();
 
 export default defineComponent  ({
     components:{
-        IonPage, IonFab, IonIcon, Form, IonItem, Field, IonLabel,
-        ErrorMessage, IonInput, IonText, IonDatetime, IonTextarea, IonSelect
+        IonPage, IonFab, IonIcon, Form, IonItem, Field, IonLabel, IonButton,
+        ErrorMessage, IonInput, IonText, IonDatetime, IonTextarea, IonSelect, IonSelectOption
     },
     setup(){
         const dueDate = ref('');
@@ -96,8 +103,30 @@ export default defineComponent  ({
             }
             return true;
         }
+
+        function addTask() {
+            db.collection('tasks').add({
+                task: task.value,
+                note: note.value,
+                dueDate: dueDate.value,
+                category: category.value,
+                done: false
+            }).then(() =>{
+                task.value = "";
+                note.value = "";
+                dueDate.value = "";
+                category.value = "";
+
+                this.$emit('close-modal');
+
+                alert('Task successfully written!')
+            }).catch((error) => {
+                console.log('Something gone wrong: ', error)
+            });
+        }
+
         return { 
-            isRequired, task, dueDate, note,
+            isRequired, task, dueDate, note, addTask,
             close, notifications, document, grid, category,
         
         }
