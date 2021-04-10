@@ -1,6 +1,6 @@
 <template>
     <ion-page>
-        <h1>Home</h1>
+        <h1>Music</h1>
     </ion-page>
 </template>
 
