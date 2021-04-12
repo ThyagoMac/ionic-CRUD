@@ -97,7 +97,7 @@
                     <router-link :to="{name:'Sport'}">
                         <ion-card-header>
 
-                            <ion-icon :icon="football" size="large" class="text-gray-900"></ion-icon>
+                            <ion-icon :icon="football" size="large" style="color:#115E59" ></ion-icon>
 
                         </ion-card-header>
 
@@ -113,7 +113,7 @@
                     <router-link :to="{name:'Shopping'}">
                         <ion-card-header>
 
-                            <ion-icon :icon="cart" size="large" style="color:#115E59"></ion-icon>
+                            <ion-icon :icon="cart" size="large" class="text-white-600"></ion-icon>
 
                         </ion-card-header>
 
