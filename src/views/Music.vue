@@ -16,7 +16,7 @@
                 </div>
                 <div class="text-center">
                     <ion-card-title>Music</ion-card-title>
-                    <ion-card-subtitle>Tasks</ion-card-subtitle>
+                    <ion-card-subtitle>{{ state.tasksMusic.length }} Tasks</ion-card-subtitle>
                 </div>
             </div>
 
@@ -39,7 +39,7 @@
                         </ion-item>
                         <ion-item-options side="end">
                             <ion-item-option @click="doneTask(item)" color="primary" expandable>
-                                <ion-checkbox class="checkbox-icon-pipi"></ion-checkbox>
+                                <ion-checkbox :checked="item.done"></ion-checkbox>
                             </ion-item-option>
                         </ion-item-options>
                     </ion-item-sliding>
@@ -62,7 +62,7 @@
                         </ion-item>
                         <ion-item-options side="end">
                             <ion-item-option @click="doneTask(item)" color="primary" expandable>
-                                <ion-checkbox class="checkbox-icon-pipi"></ion-checkbox>
+                                <ion-checkbox :checked="item.done"></ion-checkbox>
                             </ion-item-option>
                         </ion-item-options>
                     </ion-item-sliding>
@@ -85,7 +85,7 @@
                         </ion-item>
                         <ion-item-options side="end">
                             <ion-item-option @click="doneTask(item)" color="primary" expandable>
-                                <ion-checkbox class="checkbox-icon-pipi"></ion-checkbox>
+                                <ion-checkbox :checked="item.done"></ion-checkbox>
                             </ion-item-option>
                         </ion-item-options>
                     </ion-item-sliding>
@@ -108,7 +108,7 @@
                         </ion-item>
                         <ion-item-options side="end">
                             <ion-item-option @click="notDoneTask(item)" color="primary" expandable>
-                                <ion-checkbox class="checkbox-icon-pipi"></ion-checkbox>
+                                <ion-checkbox :checked="item.done"></ion-checkbox>
                             </ion-item-option>
                         </ion-item-options>
                     </ion-item-sliding>
@@ -179,7 +179,7 @@ export default defineComponent({
         }
 
         onMounted(() => {
-            if (store.state.tasksMusic.length == 0) {
+            if (store.state.tasks.length == 0) {
                 getTasksMusic();
             }
         })
