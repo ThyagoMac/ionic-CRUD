@@ -118,8 +118,8 @@ export default defineComponent  ({
                 category.value = "";
 
                 this.$emit('close-modal');
-
-                alert('Task successfully written!')
+                console.log('Task successfully written!');
+                //alert('Task successfully written!')
             }).catch((error) => {
                 console.log('Something gone wrong: ', error)
             });
